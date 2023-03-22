@@ -1,0 +1,91 @@
+body, header {
+    background-color: #EAECF1;
+    
+}
+button, footer{
+    background: #4E677F !important;
+    color: white !important;
+}
+
+/* header */
+.myNav{
+    display: flex;
+}
+
+.formNav {
+    display: flex;
+    justify-self: right;
+}
+
+.myLogo {
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 0.5rem;
+    align-self: center;
+}
+/* ================== */
+
+
+/* heroTitle */
+.heroTitle{
+    height: 550px;
+    background-image: url("./Banner.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    
+}
+/* ================== */
+
+
+
+/* items */
+.item{
+    background: white;
+    height: 450px;
+    width: 320px;
+    margin: 1vw 0.5vw;
+}
+
+.items div{
+    margin-bottom: 1.5vw;
+}
+
+.col1 div:nth-child(2){
+    display: flex;
+    height: 18px;
+}
+
+.col1 p{
+    height: 0px;
+}
+
+.col2{
+    width: 35%;
+    height: fit-content;
+    
+}
+
+.mateBook{
+    height: 203px;
+}
+
+.stared, .rated{
+    color: #ED7C2F;
+}
+
+/* ================== */
+
+/* footer */
+.f-link{
+    justify-self: end;
+}
+
+/* .f-row2 div:nth-child(2){
+    border: #373737;
+    border-radius: 0px !important;
+} */
+
+#creditCard img{
+    width: 3rem;
+}
