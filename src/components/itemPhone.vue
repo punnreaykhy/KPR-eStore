@@ -16,10 +16,13 @@
                         <div class="stared">
                             <i class="bi bi-star-fill"></i
                             ><i class="bi bi-star-fill"></i
-                            ><i class="bi bi-star-fill"></i
                             ><i class="bi bi-star-fill"></i>
                         </div>
-                        <i class="bi bi-star"></i>
+                        <div class="unstar">
+                            <i class="bi bi-star"></i>
+                            <i class="bi bi-star"></i>
+                        </div>
+                        
                         <span class="ms-2 rated">7.5</span>
                     </div>
                     <p>iPhone12 (128GB)-(ZA)</p>

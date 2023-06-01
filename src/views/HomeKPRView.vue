@@ -3,9 +3,27 @@
 import NavBar from '../components/NavBar.vue'
 import itemPH from '../components/itemPhone.vue'
 import itemPC from '../components/itemPC.vue'
+import ItemsContainer from '../components/itemsContainer.vue'
+
 import Footer from '../components/Footer.vue'
 
+
 </script>
+<!-- <script>
+import ItemsContainer from '@/components/itemsContainer.vue';
+
+export default {
+  name: 'HomeView',
+  components: {
+    ItemsContainer,
+  },
+  data() {
+    return {
+      yourApiEndpoint: 'localhost:3030/',
+    };
+  },
+};
+</script> -->
 
 <template>
   <main>
@@ -37,19 +55,15 @@ import Footer from '../components/Footer.vue'
         <br> ornare aenean euismod elementum nisi quis eleifend quam adipiscing vitae
     </p>
 
-    <div class="items">
+    <!-- <div class="items">
       <div class="d-flex flex-wrap justify-content-evenly px-3">
         <itemPH />
         <itemPH />
-        <itemPH />
-        <itemPH />
-
-        <itemPC />
-        <itemPC />
-        <itemPC />
-        <itemPC />
+        
       </div>
-    </div>
+    </div> -->
+
+    <ItemsContainer />
 
     <Footer />
   </main>
