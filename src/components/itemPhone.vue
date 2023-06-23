@@ -2,7 +2,7 @@
     <div class="item">
         <div class="d-flex align-items-center justify-content-center">
             <img
-                src="../assets/image 22.png"
+                src="../assets/image22.png"
                 alt="phone"
                 class="h-100 my-4"
             />

@@ -2,7 +2,7 @@
     <div class="item">
         <div class="d-flex align-items-center justify-content-center">
             <img
-                src="../assets/image 34.png"
+                src="../assets/image34.png"
                 alt="phone"
                 class="my-4 mx-5 mateBook"
             />
