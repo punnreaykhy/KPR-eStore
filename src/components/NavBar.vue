@@ -1,3 +1,21 @@
+<script>
+    export default {
+        data() {
+            return {
+                showPopup: false,
+            };
+        },
+        methods: {
+            togglePopup() {
+                this.showPopup = !this.showPopup;
+            },
+            closePopup() {
+                this.showPopup = false;
+            },
+        },
+    };
+</script>
+
 <template>
     <header class="sticky-top">
         <nav class="myNav navbar navbar-dark navbar-expand-lg p-3">
@@ -22,11 +40,39 @@
                 </ul>
                 <div>
                     <i class="bi bi-search mx-2" type="button"></i>
-                    <button class="btn" type="button"><i class="bi bi-cart3 me-2"></i>Cart(0)</button>
+                    <button class="btn" @click="togglePopup" type="button"><i class="bi bi-cart3 me-2"></i>Cart(0)</button>
                 </div>
             </div>
         </nav>
+
+        <div
+            v-if="showPopup"
+            class="popup"
+            @click.self="closePopup"
+        >
+            <!-- Popup content here -->
+            <div class="w-25 bg-white sub-cart p-2 mx-4 shadow rounded-3">
+                <h3>Item Added to Cart</h3>
+                <hr />
+                <div class="bg-info rounded-3 mb-3 p-2">
+                    <div>MacBook Air Case - Gray</div>
+                    <div>Qty:1 - $8.34</div>
+                </div>
+                <div class="d-flex overflow-hidden rounded-3">
+                  <div class="button w-50 p-2 text-center" style="background-color:azure;">View Cart</div>
+                  <div class="button w-50 p-2 text-center" style="background-color:rgb(67, 90, 90);">View Cart</div>
+                </div>
+            </div>
+
+
+            <!-- <h2>Popup Content</h2>
+      <p>This is the popup content.</p> -->
+        </div>
+
+        
     </header>
+
+
 </template>
 
 
@@ -34,4 +80,18 @@
 .KPR, .collapse ul li a{
     color: #273672;
 }
+.popup {
+    position: fixed;
+    top: 20;
+    right: 20;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    
+    justify-content: end;
+  }
+  
+  .sub-cart{
+    height: fit-content;
+  }
 </style>

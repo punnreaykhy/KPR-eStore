@@ -55,6 +55,6 @@ import Footer from '../components/Footer.vue'
   </main>
 </template>
 
-<style>
+<style scoped>
 @import url('../assets/style.css');
 </style>
