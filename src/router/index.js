@@ -3,7 +3,6 @@ import HomeView from '../views/HomeKPRView.vue'
 import LandView from '../views/LandingView.vue'
 import CartView from '../views/CartView.vue'
 import CustomerInfoView from '../views/CustomerInfoView.vue'
-import TestView from '../../test.vue'
 
 
 
@@ -24,11 +23,6 @@ const router = createRouter({
       path: '/product',
       name: 'product',
       component: () => import('../views/ProductView.vue')
-    },
-    {
-      path: '/test',
-      name: 'test',
-      component: TestView
     },
     {
       path: '/cart',
