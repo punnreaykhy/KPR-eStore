@@ -65,8 +65,8 @@
                     <div>Qty:1 - $8.34</div>
                 </div>
                 <div class="d-flex overflow-hidden rounded-3">
-                  <div class="button w-50 p-2 text-center text-dark" style="background-color:azure;" @click="routeToCart">View Cart</div>
-                  <div class="button w-50 p-2 text-center text-white" style="background-color:rgb(67, 90, 90);" @click="routeToCheckout">Checkout</div>
+                  <div type="button" class="button w-50 p-2 text-center text-dark" style="background-color:azure;" @click="routeToCart">View Cart</div>
+                  <div type="button" class="button w-50 p-2 text-center text-white" style="background-color:rgb(67, 90, 90);" @click="routeToCheckout">Checkout</div>
                 </div>
             </div>
 

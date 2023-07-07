@@ -31,6 +31,9 @@
                 value--;
                 document.getElementById('number').value = value;
             },
+            routeTo() {
+                this.$router.push('/cart');
+            },
         },
         async mounted() {},
     };
@@ -149,7 +152,7 @@
                         >
                             +
                         </div>
-                        <button>Add to Cart</button>
+                        <button @click="routeTo">Add to Cart</button>
                     </div>
                 </div>
             </div>
