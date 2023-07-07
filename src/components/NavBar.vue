@@ -19,7 +19,7 @@
 <template>
     <header class="sticky-top">
         <nav class="myNav navbar navbar-dark navbar-expand-lg p-3">
-            <a class="navbar-brand d-flex me-5" href="#">
+            <a class="navbar-brand d-flex me-5" href="/">
                 <img src="../assets/kprLogo.png" alt="myLogo" class="myLogo me-2">
                 <div class="KPR fst-italic fw-bold fs-4">KPR</div>
             </a>
@@ -59,8 +59,8 @@
                     <div>Qty:1 - $8.34</div>
                 </div>
                 <div class="d-flex overflow-hidden rounded-3">
-                  <div class="button w-50 p-2 text-center" style="background-color:azure;">View Cart</div>
-                  <div class="button w-50 p-2 text-center" style="background-color:rgb(67, 90, 90);">View Cart</div>
+                  <a class="button w-50 p-2 text-center text-dark" href="/cart" style="background-color:azure;">View Cart</a>
+                  <a class="button w-50 p-2 text-center text-white" href="/checkout/customer-info" style="background-color:rgb(67, 90, 90);">Checkout</a>
                 </div>
             </div>
 
@@ -77,6 +77,7 @@
 
 
 <style scoped>
+@import url('../assets/style.css');
 .KPR, .collapse ul li a{
     color: #273672;
 }

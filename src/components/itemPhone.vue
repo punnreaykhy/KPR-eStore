@@ -1,5 +1,20 @@
+<script>
+export default {
+  methods: {
+    parentBtnClick() {
+      // Perform your desired action for the parent button here
+      this.$router.push({ name: "product" });
+    },
+    childBtnClick() {
+      // Perform your desired action for the child button here
+      console.log('Child button clicked!');
+    }
+  }
+};
+</script>
+
 <template>
-    <div class="item">
+    <div class="item" type="button" @click="parentBtnClick">
         <div class="d-flex align-items-center justify-content-center">
             <img
                 src="../assets/image22.png"
@@ -28,8 +43,15 @@
             </div>
 
             <div class="col2 d-flex justify-content-end">
-                <i type="button" class="bi bi-cart3 me-2 border px-2 py-1 rounded"></i>
+                <i type="button" @click.stop="childBtnClick" class="bi bi-cart3 me-2 border px-2 py-1 rounded"></i>
             </div>
         </div>
     </div>
 </template>
+
+<style scoped>
+@import url('../assets/style.css');
+    .bi-cart3:hover {
+        background: #01a9bb;
+    }
+</style>

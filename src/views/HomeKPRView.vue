@@ -3,7 +3,7 @@
 import NavBar from '../components/NavBar.vue'
 import itemPH from '../components/itemPhone.vue'
 import itemPC from '../components/itemPC.vue'
-import Footer from '../components/Footer.vue'
+import Landing from './LandingView.vue'
 
 </script>
 
@@ -51,8 +51,9 @@ import Footer from '../components/Footer.vue'
       </div>
     </div>
 
-    <Footer />
+
   </main>
+  <Landing/>
 </template>
 
 <style scoped>

@@ -1,5 +1,20 @@
+<script>
+export default {
+  methods: {
+    parentBtnClick() {
+      // Perform your desired action for the parent button here
+      this.$router.push({ name: "product" });
+    },
+    childBtnClick() {
+      // Perform your desired action for the child button here
+      console.log('Child button clicked!');
+    }
+  }
+};
+</script>
+
 <template>
-    <div class="item">
+    <div class="item" type="button" @click="parentBtnClick">
         <div class="d-flex align-items-center justify-content-center">
             <img
                 src="../assets/image34.png"
@@ -22,14 +37,25 @@
                         <i class="bi bi-star"></i>
                         <span class="ms-2 rated">7.5</span>
                     </div>
-                    <p>MateBook (128GB)-(ZA)</p>
+                    <p>MateBook</p>
                     <p>Huawei - Navy Blue</p>
                 </div>
             </div>
 
             <div class="col2 d-flex justify-content-end">
-                <i type="button" class="bi bi-cart3 me-2 border px-2 py-1 rounded"></i>
+                <i
+                    type="button"
+                    @click.stop="childBtnClick"
+                    class="bi bi-cart3 child me-2 border px-2 py-1 rounded"
+                ></i>
             </div>
         </div>
     </div>
 </template>
+
+<style scoped>
+@import url('../assets/style.css');
+    .bi-cart3:hover {
+        background: #01a9bb;
+    }
+</style>

@@ -1,8 +1,9 @@
 <template>
-    <footer class="px-3 pb-2">
+    <footer class="px-3 pb-2 w-100" style="margin-top:auto;">
         <div class="f-row1 d-md-flex flex-wrap">
             <div class="f-link d-md-flex flex-wrap w-50 align-items-center">
-                <div class="w-25 fw-bold fs-2">KPR</div>
+                <a href="/" class="navbar-brand w-25 fw-bold fs-2">KPR</a>
+                <!-- <div type="button" class="w-25 fw-bold fs-2">KPR</div> -->
                 <div class="w-75">
                     <ul
                         class="navbar-nav gap-4 ms-5 me-auto list-group-horizontal"
@@ -72,3 +73,7 @@
         </div>
     </footer>
 </template>
+
+<style scoped>
+@import url('../assets/style.css');
+</style>

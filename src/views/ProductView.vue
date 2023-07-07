@@ -41,7 +41,7 @@
         <NavBar />
 
         <div class="route-link d-flex gap-2 m-4">
-            <a href="#">Home</a>
+            <a href="/">Home</a>
             <a href="#">Category</a>
             <a href="#">Product</a>
         </div>
@@ -70,7 +70,7 @@
                         <span class="ms-2 text-success">Free Shipping</span>
                     </div>
                     <div
-                        class="bg-info d-flex text-center justify-content-around"
+                        class="bg-info py-2 my-3 d-flex text-center justify-content-around"
                     >
                         <div>
                             <h5>$99</h5>
@@ -100,29 +100,29 @@
                         </div>
                         <hr />
                         <div class="d-flex gap-5">
-                            <label for="price">Price:</label>
-                            <div>Negotiable</div>
+                            <label for="type">Type:</label>
+                            <div>Case</div>
                         </div>
                         <div class="d-flex gap-5">
-                            <label for="price">Price:</label>
-                            <div>Negotiable</div>
+                            <label for="material">Material:</label>
+                            <div>Plastic material</div>
                         </div>
                         <div class="d-flex gap-5">
-                            <label for="price">Price:</label>
-                            <div>Negotiable</div>
+                            <label for="design">Design:</label>
+                            <div>Modern</div>
                         </div>
                         <hr />
                         <div class="d-flex gap-5">
-                            <label for="price">Price:</label>
-                            <div>Negotiable</div>
+                            <label for="customize">Customization:</label>
+                            <div>Customized logo and design custom packages</div>
                         </div>
                         <div class="d-flex gap-5">
-                            <label for="price">Price:</label>
-                            <div>Negotiable</div>
+                            <label for="protection">Protection:</label>
+                            <div>Refund Policy</div>
                         </div>
                         <div class="d-flex gap-5">
-                            <label for="price">Price:</label>
-                            <div>Negotiable</div>
+                            <label for="warrenty">Warranty:</label>
+                            <div>2 years full warranty</div>
                         </div>
                         <hr />
                     </div>
@@ -252,5 +252,16 @@
     input[type='number']::-webkit-outer-spin-button {
         -webkit-appearance: none;
         margin: 0;
+    }
+
+    .detail div{
+        justify-content: space-between;
+        margin: 8px;
+        align-items: start;
+    }
+    .detail div div{
+        margin:0;
+        width:75%;
+        
     }
 </style>
