@@ -12,6 +12,12 @@
             closePopup() {
                 this.showPopup = false;
             },
+            routeToCheckout(){
+                this.$router.push({ name: "customer-info" });
+            },
+            routeToCart(){
+                this.$router.push({ name: "cart" });
+            }
         },
     };
 </script>
@@ -59,8 +65,8 @@
                     <div>Qty:1 - $8.34</div>
                 </div>
                 <div class="d-flex overflow-hidden rounded-3">
-                  <a class="button w-50 p-2 text-center text-dark" href="/cart" style="background-color:azure;">View Cart</a>
-                  <a class="button w-50 p-2 text-center text-white" href="/checkout/customer-info" style="background-color:rgb(67, 90, 90);">Checkout</a>
+                  <div class="button w-50 p-2 text-center text-dark" style="background-color:azure;" @click="routeToCart">View Cart</div>
+                  <div class="button w-50 p-2 text-center text-white" style="background-color:rgb(67, 90, 90);" @click="routeToCheckout">Checkout</div>
                 </div>
             </div>
 
