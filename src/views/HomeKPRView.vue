@@ -2,13 +2,47 @@
 
 import NavBar from '../components/NavBar.vue'
 import itemPH from '../components/itemPhone.vue'
-import itemPC from '../components/itemPC.vue'
 import Landing from './LandingView.vue'
 
 </script>
 
+<script>
+import axios from 'axios';
+export default {
+
+  data() {
+    return {
+      products: []
+    };
+  },
+  mounted() {
+    this.getProducts();
+  },
+  methods: {
+    getProducts() {
+      // Retrieve products using an API request
+      // Set this.products with the retrieved data
+      axios.get('http://127.0.0.1:8000/api/products/')
+        .then(response => {
+          this.products = response.data.slice(0, 8);
+          // this.products = response.data;
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    }
+  }
+};
+</script>
+
 <template>
   <main>
+
+    <!-- <div v-for="product in products" :key="product.id">
+      <h3>{{ product.name }}</h3>
+      <p>{{ product.description }}</p>
+
+    </div> -->
     
     <NavBar />
     <!-- <heroTitle /> -->
@@ -39,16 +73,9 @@ import Landing from './LandingView.vue'
 
     <div class="items">
       <div class="d-flex flex-wrap justify-content-evenly px-3">
-        <itemPH />
-        <itemPH />
-        <itemPH />
-        <itemPH />
-
-        <itemPC />
-        <itemPC />
-        <itemPC />
-        <itemPC />
+        <itemPH v-for="product in products" :key="product.id" :product="product" />
       </div>
+      
     </div>
 
 

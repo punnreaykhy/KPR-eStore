@@ -1,5 +1,10 @@
 <script>
 export default {
+    data(){
+        return{
+            productImgURL: "http://127.0.0.1:8000/api"
+        }
+    },
   methods: {
     parentBtnClick() {
       // Perform your desired action for the parent button here
@@ -9,36 +14,34 @@ export default {
       // Perform your desired action for the child button here
       console.log('Child button clicked!');
     }
+  },
+  props: {
+    product: {
+      type: Object,
+      required: true
+    }
   }
 };
 </script>
 
 <template>
     <div class="item" type="button" @click="parentBtnClick">
-        <div class="d-flex align-items-center justify-content-center">
+        <div class="d-flex justify-content-center align-items-center w-100 p-3" style="height:18.6rem;">
             <img
-                src="../assets/image22.png"
+                :src="productImgURL+product.image_path"
                 alt="phone"
-                class="h-100 my-4"
+                class="w-100 h-100"
             />
         </div>
         <hr />
-        <div class="d-flex">
-            <div class="itemInfo px-2">
+        <div class="d-flex h-25">
+            <div class="itemInfo px-2" style="width:62%">
                 <div class="col1 d-flex flex-column gap-2 p-1">
-                    <h4>$99.50</h4>
-                    <div>
-                        <div class="stared">
-                            <i class="bi bi-star-fill"></i
-                            ><i class="bi bi-star-fill"></i
-                            ><i class="bi bi-star-fill"></i
-                            ><i class="bi bi-star-fill"></i>
-                        </div>
-                        <i class="bi bi-star"></i>
-                        <span class="ms-2 rated">7.5</span>
-                    </div>
-                    <p>iPhone12 (128GB)-(ZA)</p>
-                    <p>Apple - Navy Blue</p>
+                    <h4 class=" text-danger">${{product.price}}</h4>
+                    
+                    <p class=" fw-bold">{{product.name}}</p>
+                    <div>{{product.description}}</div>
+                    
                 </div>
             </div>
 
