@@ -8,7 +8,18 @@ export default {
   methods: {
     parentBtnClick() {
       // Perform your desired action for the parent button here
-      this.$router.push({ name: "product" });
+      
+    //   this.$router.push({ 
+    //     name: "product/"+this.product.id,
+    //     // params: {
+    //     //     productId: this.product.id
+    //     // }
+    //     // query: {
+    //     //     categoryId: this.product.category_id,
+    //     //     productId: this.product.id
+    //     // }
+    //     });
+    this.$router.push("product/"+this.product.id);
     },
     childBtnClick() {
       // Perform your desired action for the child button here
@@ -26,6 +37,7 @@ export default {
 
 <template>
     <div class="item" type="button" @click="parentBtnClick">
+        <!-- {{product.id}} -->
         <div class="d-flex justify-content-center align-items-center w-100 p-3" style="height:18.6rem;">
             <img
                 :src="productImgURL+product.image_path"

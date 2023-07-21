@@ -1,5 +1,5 @@
 <script>
-import axios from 'axios';
+    import axios from 'axios';
     export default {
         data() {
             return {
@@ -62,11 +62,14 @@ import axios from 'axios';
                 class="collapse navbar-collapse"
                 id="mynavbar">
                 <ul class="navbar-nav ms-5 me-auto">
-                    <li class="nav-item" v-for="cate in categories" :key="cate.id">
+                    <li
+                        class="nav-item"
+                        v-for="cate in categories"
+                        :key="cate.id">
                         <a
                             class="nav-link"
                             href="javascript:void(0)"
-                            >{{cate.name}}</a
+                            >{{ cate.name }}</a
                         >
                     </li>
                 </ul>
@@ -81,6 +84,13 @@ import axios from 'axios';
                         <i class="bi bi-cart3 me-2"></i>Cart(0)
                     </button>
                 </div>
+                <!-- <div class="search-box">
+                    <i class="uil uil-search search-icon"></i>
+                    <input
+                        type="text"
+                        v-model="searchTerm"
+                        placeholder="Search here..." />
+                </div> -->
             </div>
         </nav>
 

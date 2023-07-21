@@ -3,178 +3,267 @@
     import Footer from '../components/Footer.vue';
 </script>
 <script>
+    import productApi from '../libs/api/product';
     export default {
         // components: { Button },
         data() {
             return {
-                categories: [],
+                productImgURL: 'http://127.0.0.1:8000/api',
+                product: null,
+                pImages: [],
+                relatedProducts: [],
+                // category: null,
+                count: 0,
             };
+        },
+        watch: {
+            count(newValue) {
+                // Check if the input is empty or not a number
+                if (isNaN(newValue) || newValue === '') {
+                    this.count = 0; // Set the input value to 0
+                } else if (newValue > this.product.stock) {
+                    this.count = this.product.stock; // Limit the value to 4 if it goes beyond.
+                }
+            },
         },
         methods: {
             increaseValue() {
-                var value = parseInt(
-                    document.getElementById('number').value,
-                    10
-                );
-                value = isNaN(value) ? 0 : value;
-                value++;
-                document.getElementById('number').value = value;
+                const stock = this.product.stock;
+                if (this.count < stock) {
+                    this.count++;
+                }
+
+                // var value = parseInt(
+                //     document.getElementById('number').value,
+                //     10
+                // );
+                // value = isNaN(value) ? 0 : value;
+                // value++;
+                // document.getElementById('number').value = value;
             },
 
             decreaseValue() {
-                var value = parseInt(
-                    document.getElementById('number').value,
-                    10
-                );
-                value = isNaN(value) ? 0 : value;
-                value < 1 ? (value = 1) : '';
-                value--;
-                document.getElementById('number').value = value;
+                if (this.count > 0) {
+                    this.count--;
+                }
+
+                // var value = parseInt(
+                //     document.getElementById('number').value,
+                //     10
+                // );
+                // value = isNaN(value) ? 0 : value;
+                // value < 1 ? (value = 1) : '';
+                // value--;
+                // document.getElementById('number').value = value;
             },
             routeTo() {
                 this.$router.push('/cart');
             },
+            routeToProduct(id) {
+                this.$router.push('/product/' + id);
+                // location.reload();
+            },
+            // getProduct() {
+            //     // Retrieve product using an API request
+            //     // Set this.product with the retrieved data
+            //     axios
+            //         .get(
+            //             `http://127.0.0.1:8000/api/products/${this.$route.params.id}`
+            //         )
+            //         .then((response) => {
+            //             this.product = response.data;
+            //             axios
+            //                 .get(
+            //                     `http://127.0.0.1:8000/api/categories/${this.product.category_id}`
+            //                 )
+            //                 .then((response) => {
+            //                     this.category = response.data;
+            //                 })
+            //                 .catch((error) => {
+            //                     console.error(error);
+            //                 });
+            //         })
+            //         .catch((error) => {
+            //             console.error(error);
+            //         });
+            // },
+            async fetchProductById(productId) {
+                // if(this.$route.params.id){
+                //     this.product = await productApi.getProduct(productId);
+                //     this.pImages = this.product.imagesPath;
+                //     const allProducts = await productApi.getByCate(
+                //         this.product.category_name
+                //     );
+                //     this.relatedProducts = allProducts.slice(0, 6);
+                // }
+                this.product = await productApi.getProduct(productId);
+                    this.pImages = this.product.imagesPath;
+                    const allProducts = await productApi.getByCate(
+                        this.product.category_name
+                    );
+                    this.relatedProducts = allProducts.slice(0, 6);
+                
+            },
         },
-        async mounted() {},
+
+        async mounted() {
+            this.fetchProductById(this.$route.params.id);
+            // this.product = await productApi.getProduct(this.$route.params.id);
+            // this.pImages = this.product.imagesPath;
+            // const allProducts = await productApi.getByCate(
+            //     this.product.category_name
+            // );
+            // this.relatedProducts = allProducts.slice(0, 6);
+            // console.log(this.product);
+            // this.getProduct();
+
+            // console.log(productApi.getProduct(this.$route.params.id));
+        },
     };
 </script>
 
 <template>
     <main>
         <NavBar />
-
         <div class="route-link d-flex gap-2 m-4">
             <a href="/">Home</a>
-            <a href="#">Category</a>
-            <a href="#">Product</a>
+            <router-link to="/dashboard/product">{{
+                product?.category_name
+            }}</router-link>
+            <router-link to="/dashboard/product">{{
+                product?.name
+            }}</router-link>
         </div>
 
         <div class="product bg-white mx-4 p-4">
             <div class="d-flex gap-3">
-                <div
+                <!-- <img
+                :src="productImgURL+product?.image_path"
                     class="p-img border"
-                    style="width: 500px; height: 500px"
-                ></div>
-                <div class="p-detail w-50">
-                    <div class="text-success">In stock</div>
-                    <h4>MacBook Air Case 2022 with Touch ID Air 13.6 Cover</h4>
-                    <div class="d-flex align-items-center">
-                        <div class="stared">
-                            <i class="bi bi-star-fill"></i
-                            ><i class="bi bi-star-fill"></i
-                            ><i class="bi bi-star-fill"></i
-                            ><i class="bi bi-star-fill"></i>
+                    style="width: 500px; height: 500px"> -->
+                <div
+                    id="carouselExampleControls"
+                    class="carousel slide p-img border"
+                    data-bs-ride="carousel"
+                    style="width: 500px; height: 500px">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <img
+                                :src="productImgURL + product?.image_path"
+                                class="d-block w-100"
+                                alt="..." />
                         </div>
-                        <i class="bi bi-star"></i>
-                        <span class="ms-2 rated">7.5</span>
-                        <div class="dot"></div>
-                        <span class="ms-2">154 orders</span>
-                        <div class="dot"></div>
-                        <span class="ms-2 text-success">Free Shipping</span>
+                        <div
+                            class="carousel-item"
+                            v-for="pImg in pImages"
+                            :key="pImg.id">
+                            <img
+                                :src="productImgURL + pImg.image_path"
+                                class="d-block w-100"
+                                alt="..." />
+                        </div>
+                    </div>
+                    <button
+                        class="carousel-control-prev"
+                        type="button"
+                        data-bs-target="#carouselExampleControls"
+                        data-bs-slide="prev">
+                        <span
+                            class="carousel-control-prev-icon bg-info rounded"
+                            aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button
+                        class="carousel-control-next"
+                        type="button"
+                        data-bs-target="#carouselExampleControls"
+                        data-bs-slide="next">
+                        <span
+                            class="carousel-control-next-icon bg-info rounded"
+                            aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+                <div class="p-detail w-50 d-flex flex-column h-100">
+                    <div
+                        v-if="product?.stock > 0"
+                        class="text-success">
+                        In stock
                     </div>
                     <div
-                        class="bg-info py-2 my-3 d-flex text-center justify-content-around"
-                    >
-                        <div>
-                            <h5>$99</h5>
-                            <span>50-100 pcs</span>
-                        </div>
-                        <div
-                            class="bg-black my-2"
-                            style="width: 1px"
-                        ></div>
-                        <div>
-                            <h5>$99</h5>
-                            <span>50-100 pcs</span>
-                        </div>
-                        <div
-                            class="bg-black my-2"
-                            style="width: 1px"
-                        ></div>
-                        <div>
-                            <h5>$99</h5>
-                            <span>50-100 pcs</span>
-                        </div>
+                        v-else
+                        class="text-danger">
+                        Out of stock
                     </div>
+                    <h4>{{product?.name}}</h4>
+
                     <div class="detail">
-                        <div class="d-flex gap-5">
-                            <label for="price">Price:</label>
-                            <div>Negotiable</div>
-                        </div>
                         <hr />
+                        <h4>Description:</h4>
                         <div class="d-flex gap-5">
-                            <label for="type">Type:</label>
-                            <div>Case</div>
+                            {{ product?.description }}
                         </div>
-                        <div class="d-flex gap-5">
-                            <label for="material">Material:</label>
-                            <div>Plastic material</div>
-                        </div>
-                        <div class="d-flex gap-5">
-                            <label for="design">Design:</label>
-                            <div>Modern</div>
-                        </div>
-                        <hr />
-                        <div class="d-flex gap-5">
-                            <label for="customize">Customization:</label>
-                            <div>Customized logo and design custom packages</div>
-                        </div>
-                        <div class="d-flex gap-5">
-                            <label for="protection">Protection:</label>
-                            <div>Refund Policy</div>
-                        </div>
-                        <div class="d-flex gap-5">
-                            <label for="warrenty">Warranty:</label>
-                            <div>2 years full warranty</div>
-                        </div>
+
                         <hr />
                     </div>
 
-                    <div class="d-flex border rounded-3 overflow-hidden " style="width:fit-content">
-                        <div
-                        class="value-button d-flex justify-content-center align-items-center"
-                            id="decrease"
-                            @click="decreaseValue"
-                            value="Decrease Value"
-                        >
-                            -
+                    <div
+                        class="d-flex align-items-end"
+                        style="width: fit-content; height: 300px">
+                        <div class="d-flex">
+                            <div
+                                class="value-button d-flex justify-content-center align-items-center"
+                                id="decrease"
+                                @click="decreaseValue"
+                                value="Decrease Value">
+                                -
+                            </div>
+                            <input
+                                type="number"
+                                id="number"
+                                v-model="count" />
+                            <div
+                                class="value-button d-flex justify-content-center align-items-center"
+                                id="increase"
+                                @click="increaseValue">
+                                +
+                            </div>
+                            <button @click="routeTo">Add to Cart</button>
                         </div>
-                        <input
-                            type="number"
-                            id="number"
-                            value="0"
-                        />
-                        <div
-                            class="value-button d-flex justify-content-center align-items-center"
-                            id="increase"
-                            @click="increaseValue"
-                            value="Increase Value"
-                        >
-                            +
-                        </div>
-                        <button @click="routeTo">Add to Cart</button>
                     </div>
                 </div>
             </div>
-            <div class="d-flex mt-3">
-                <div class="sub-img"></div>
+            <div class="d-flex mt-3 gap-3">
+                <img
+                    :src="productImgURL + product?.image_path"
+                    class="sub-img" />
+                <img
+                    v-for="pImg in pImages"
+                    :key="pImg.id"
+                    :src="productImgURL + pImg.image_path"
+                    class="sub-img" />
             </div>
 
             <div class="related-p p-2 border m-3">
                 <h4>Related products</h4>
-                <div class="d-flex gap-2">
-                    <div class="card p-3">
+                <div class="d-flex gap-2 justify-content-around">
+                    <div
+                        @click="fetchProductById(product.id), routeToProduct(product.id)"
+                        class="card p-3 text-dark text-decoration-none"
+                        v-for="product in relatedProducts"
+                        :key="product.id">
+                        <img
+                            :src="productImgURL + product?.image_path"
+                            class="relate-p-img" />
+                        <h5 class="mt-2">{{ product.name }}</h5>
+                        <span>{{ product.price }}</span>
+                    </div>
+                    <!-- <div class="card p-3">
                         <div class="relate-p-img"></div>
                         <h5 class="mt-2">Phone</h5>
                         <span>$234-$347</span>
-                    </div>
-                    <div class="card p-3">
-                        <div class="relate-p-img"></div>
-                        <h5 class="mt-2">Phone</h5>
-                        <span>$234-$347</span>
-                    </div>
+                    </div> -->
                 </div>
-                
             </div>
         </div>
 
@@ -183,15 +272,14 @@
 </template>
 
 <style scoped>
-
-    .sub-img{
+    .sub-img {
         width: 100px;
         height: 100px;
         border: solid 1px;
         border-radius: 1em;
     }
 
-    .relate-p-img{
+    .relate-p-img {
         width: 150px;
         height: 150px;
         border: solid 1px;
@@ -257,14 +345,13 @@
         margin: 0;
     }
 
-    .detail div{
+    .detail div {
         justify-content: space-between;
         margin: 8px;
         align-items: start;
     }
-    .detail div div{
-        margin:0;
-        width:75%;
-        
+    .detail div div {
+        margin: 0;
+        width: 75%;
     }
 </style>

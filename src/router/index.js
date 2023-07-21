@@ -20,7 +20,7 @@ const router = createRouter({
       component: LandView
     },
     {
-      path: '/product',
+      path: '/product/:id',
       name: 'product',
       component: () => import('../views/ProductView.vue')
     },

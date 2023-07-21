@@ -7,7 +7,7 @@ import Landing from './LandingView.vue'
 </script>
 
 <script>
-import axios from 'axios';
+import productApi from '../libs/api/product';
 export default {
 
   data() {
@@ -15,22 +15,12 @@ export default {
       products: []
     };
   },
-  mounted() {
-    this.getProducts();
+  async mounted() {
+    const allProducts = await productApi.all();
+    this.products = allProducts.slice(0, 8);
   },
   methods: {
-    getProducts() {
-      // Retrieve products using an API request
-      // Set this.products with the retrieved data
-      axios.get('http://127.0.0.1:8000/api/products/')
-        .then(response => {
-          this.products = response.data.slice(0, 8);
-          // this.products = response.data;
-        })
-        .catch(error => {
-          console.error(error);
-        });
-    }
+    
   }
 };
 </script>
@@ -73,7 +63,7 @@ export default {
 
     <div class="items">
       <div class="d-flex flex-wrap justify-content-evenly px-3">
-        <itemPH v-for="product in products" :key="product.id" :product="product" />
+        <itemPH v-for="product in products" :key="product.id" :product="product"/>
       </div>
       
     </div>
