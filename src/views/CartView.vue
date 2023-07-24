@@ -1,7 +1,3 @@
-<script setup>
-    import NavBar from '../components/NavBar.vue';
-    import Footer from '../components/Footer.vue';
-</script>
 <script>
     export default {
         // components: { Button },
@@ -46,7 +42,7 @@
         display: flex;
         flex-direction: column;
     ">
-        <NavBar />
+        
         <div
             class="bg-white p-5 mx-5 rounded-3"
             style="height: 36.5em"
@@ -211,7 +207,6 @@
                 </div>
             </div>
         </div>
-        <Footer />
     </main>
 </template>
 

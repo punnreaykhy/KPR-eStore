@@ -1,7 +1,3 @@
-<script setup>
-    import NavBar from '../components/NavBar.vue';
-    import Footer from '../components/Footer.vue';
-</script>
 <script>
     import productApi from '../libs/api/product';
     export default {
@@ -63,75 +59,50 @@
                 this.$router.push('/product/' + id);
                 // location.reload();
             },
-            // getProduct() {
-            //     // Retrieve product using an API request
-            //     // Set this.product with the retrieved data
-            //     axios
-            //         .get(
-            //             `http://127.0.0.1:8000/api/products/${this.$route.params.id}`
-            //         )
-            //         .then((response) => {
-            //             this.product = response.data;
-            //             axios
-            //                 .get(
-            //                     `http://127.0.0.1:8000/api/categories/${this.product.category_id}`
-            //                 )
-            //                 .then((response) => {
-            //                     this.category = response.data;
-            //                 })
-            //                 .catch((error) => {
-            //                     console.error(error);
-            //                 });
-            //         })
-            //         .catch((error) => {
-            //             console.error(error);
-            //         });
-            // },
+
             async fetchProductById(productId) {
-                // if(this.$route.params.id){
-                //     this.product = await productApi.getProduct(productId);
-                //     this.pImages = this.product.imagesPath;
-                //     const allProducts = await productApi.getByCate(
-                //         this.product.category_name
-                //     );
-                //     this.relatedProducts = allProducts.slice(0, 6);
-                // }
-                this.product = await productApi.getProduct(productId);
-                    this.pImages = this.product.imagesPath;
-                    const allProducts = await productApi.getByCate(
-                        this.product.category_name
-                    );
-                    this.relatedProducts = allProducts.slice(0, 6);
-                
+                try {
+                    this.product = await productApi.getProduct(productId);
+                    console.log(this.product);
+                } catch (error) {
+                    // Handle any errors that occurred during the async operations.
+                    console.error('Error:', error);
+                }
+            },
+            async adjustProduct() {
+                this.pImages = this.product?.imagesPath;
+                console.log(this.product?.imagesPath);
+                console.log(this.product?.category_name);
+                const allProducts = await productApi.getByCate(
+                    this.product?.category_name
+                );
+                this.relatedProducts = allProducts.slice(0, 6);
             },
         },
 
         async mounted() {
-            this.fetchProductById(this.$route.params.id);
-            // this.product = await productApi.getProduct(this.$route.params.id);
-            // this.pImages = this.product.imagesPath;
-            // const allProducts = await productApi.getByCate(
-            //     this.product.category_name
-            // );
-            // this.relatedProducts = allProducts.slice(0, 6);
-            // console.log(this.product);
-            // this.getProduct();
+            try {
+                // Call fetchProductById and wait for it to resolve
+                await this.fetchProductById(this.$route.params.id);
+                console.log(1);
 
-            // console.log(productApi.getProduct(this.$route.params.id));
+                // Now that fetchProductById is resolved, call adjustProduct
+                await this.adjustProduct();
+
+            } catch (error) {
+                console.error('Error in mounted:', error);
+            }
         },
     };
 </script>
 
 <template>
     <main>
-        <NavBar />
         <div class="route-link d-flex gap-2 m-4">
-            <a href="/">Home</a>
-            <router-link to="/dashboard/product">{{
+            <a href="/">Home</a>>
+            <router-link to="/products">All Products</router-link>>
+            <router-link :to="'/products/' + product?.category_name">{{
                 product?.category_name
-            }}</router-link>
-            <router-link to="/dashboard/product">{{
-                product?.name
             }}</router-link>
         </div>
 
@@ -195,7 +166,7 @@
                         class="text-danger">
                         Out of stock
                     </div>
-                    <h4>{{product?.name}}</h4>
+                    <h4>{{ product?.name }}</h4>
 
                     <div class="detail">
                         <hr />
@@ -248,8 +219,12 @@
                 <h4>Related products</h4>
                 <div class="d-flex gap-2 justify-content-around">
                     <div
-                        @click="fetchProductById(product.id), routeToProduct(product.id)"
-                        class="card p-3 text-dark text-decoration-none"
+                        type="button"
+                        @click="
+                            fetchProductById(product.id),
+                                routeToProduct(product.id)
+                        "
+                        class="card p-3 text-dark text-decoration-none hover-zoom"
                         v-for="product in relatedProducts"
                         :key="product.id">
                         <img
@@ -266,12 +241,13 @@
                 </div>
             </div>
         </div>
-
-        <Footer />
     </main>
 </template>
 
 <style scoped>
+    .card:hover {
+        background-color: #eee;
+    }
     .sub-img {
         width: 100px;
         height: 100px;

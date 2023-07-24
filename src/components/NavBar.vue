@@ -1,17 +1,50 @@
 <script>
-    import axios from 'axios';
+    import categoryApi from '../libs/api/category';
+    import productApi from '../libs/api/product';
     export default {
         data() {
             return {
                 showPopup: false,
                 categories: [],
+                searchBarVisible: false,
+                searchInput: '',
+                productsInCart: [],
             };
         },
-        mounted() {
-            this.getCategories();
+        async mounted() {
+            this.categories = await categoryApi.all();
+            if (localStorage.productsInCart) {
+                this.getProductsInCart()
+            }
         },
+
+        computed: {},
+
         methods: {
+            async getProductsInCart() {
+                this.productsInCart = await JSON.parse(
+                    localStorage.getItem('productsInCart')
+                );
+                this.productsInCart.forEach(async (value, index) => {
+                    try {
+        const tmpProduct = await productApi.getProductForCate(value.id);
+        this.productsInCart[index].name = tmpProduct?.name;
+        this.productsInCart[index].price = tmpProduct?.price;
+      } catch (error) {
+        console.error("Error fetching product data for ID:", value.id);
+      }
+      await this.$nextTick(); // Update Vue component after each API call
+                        })
+            },
+            toggleSearch() {
+                if (this.searchInput === '') {
+                    $('#searchBar').toggle('display: inline-block');
+                } else {
+                    //perform search here
+                }
+            },
             togglePopup() {
+                this.getProductsInCart();
                 this.showPopup = !this.showPopup;
             },
             closePopup() {
@@ -23,18 +56,18 @@
             routeToCart() {
                 this.$router.push({ name: 'cart' });
             },
-            getCategories() {
-                // Retrieve products using an API request
-                // Set this.products with the retrieved data
-                axios
-                    .get('http://127.0.0.1:8000/api/categories/')
-                    .then((response) => {
-                        this.categories = response.data;
-                    })
-                    .catch((error) => {
-                        console.error(error);
-                    });
-            },
+            // getCategories() {
+            //     // Retrieve products using an API request
+            //     // Set this.products with the retrieved data
+            //     axios
+            //         .get('http://127.0.0.1:8000/api/categories/')
+            //         .then((response) => {
+            //             this.categories = response.data;
+            //         })
+            //         .catch((error) => {
+            //             console.error(error);
+            //         });
+            // },
         },
     };
 </script>
@@ -66,22 +99,32 @@
                         class="nav-item"
                         v-for="cate in categories"
                         :key="cate.id">
-                        <a
+                        <router-link
+                            :to="'/products/' + cate?.name"
                             class="nav-link"
-                            href="javascript:void(0)"
-                            >{{ cate.name }}</a
+                            >{{ cate?.name }}</router-link
                         >
                     </li>
                 </ul>
-                <div>
+                <div class="d-flex align-items-center">
+                    <input
+                        style="display: none"
+                        id="searchBar"
+                        name="search"
+                        type="search"
+                        v-model="searchInput"
+                        placeholder="Search&hellip;" />
                     <i
-                        class="bi bi-search mx-2"
+                        class="bi bi-search mx-2 icon ion-ios-search me-3"
+                        id="toggle-search"
+                        @click="toggleSearch"
                         type="button"></i>
+
                     <button
                         class="btn"
                         @click="togglePopup"
                         type="button">
-                        <i class="bi bi-cart3 me-2"></i>Cart(0)
+                        <i class="bi bi-cart3 me-2"></i>Cart
                     </button>
                 </div>
                 <!-- <div class="search-box">
@@ -102,10 +145,13 @@
             <div class="w-25 bg-white sub-cart p-2 mx-4 shadow rounded-3">
                 <h3>Item Added to Cart</h3>
                 <hr />
-                <div class="bg-info rounded-3 mb-3 p-2">
-                    <div>MacBook Air Case - Gray</div>
-                    <div>Qty:1 - $8.34</div>
+                <div style="height: 20rem" class=" overflow-scroll ">
+                    <div class="bg-info rounded-3 mb-3 p-2" v-for="product in productsInCart" :key="product.id">
+                        <div>{{product?.name}}</div>
+                        <div>Qty:{{product?.qty}} - ${{(product?.qty * product?.price).toFixed(2)}}</div>
+                    </div>
                 </div>
+                
                 <div class="d-flex overflow-hidden rounded-3">
                     <div
                         type="button"
@@ -149,5 +195,19 @@
 
     .sub-cart {
         height: fit-content;
+    }
+    #searchBar {
+        background-color: #ffffff;
+        border: none;
+        color: rgb(0, 0, 0);
+        font-size: 12pt;
+        font-weight: 100;
+        margin-right: 10px;
+        padding: 0.25em 0.75em;
+        max-width: 130px;
+        text-align: right;
+        -webkit-border-radius: 28px;
+        -moz-border-radius: 28px;
+        border-radius: 28px;
     }
 </style>

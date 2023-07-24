@@ -1,13 +1,10 @@
 <script setup>
-
-import NavBar from '../components/NavBar.vue'
 import itemPH from '../components/itemPhone.vue'
 import Landing from './LandingView.vue'
-
+import productApi from '../libs/api/product';
 </script>
 
 <script>
-import productApi from '../libs/api/product';
 export default {
 
   data() {
@@ -16,11 +13,13 @@ export default {
     };
   },
   async mounted() {
-    const allProducts = await productApi.all();
-    this.products = allProducts.slice(0, 8);
+    await this.getProducts();
   },
   methods: {
-    
+    async getProducts(){
+      const tmpProducts = await productApi.all();
+    this.products = tmpProducts.slice(0, 8);
+    }
   }
 };
 </script>
@@ -34,7 +33,7 @@ export default {
 
     </div> -->
     
-    <NavBar />
+    
     <!-- <heroTitle /> -->
     <div
         class="heroTitle p-md-2 mx-md-3 rounded-4 d-flex ps-5 pb-5"
@@ -70,7 +69,7 @@ export default {
 
 
   </main>
-  <Landing/>
+  <Landing :products="products"/>
 </template>
 
 <style scoped>

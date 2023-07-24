@@ -1,6 +1,3 @@
-<script setup>
-    import Footer from '../components/Footer.vue';
-</script>
 
 <template>
     <main>
@@ -8,11 +5,9 @@
         <div
             class="heroBanner p-md-2 mx-md-3 rounded-4 overflow-hidden d-flex ps-5 pb-5 flex-column justify-content-center text-center p-3"
             style="height: 780px"
-            id="heroCover"
-        >
+            id="heroCover">
             <div
-                class="content d-flex flex-column gap-2 text-white align-items-center"
-            >
+                class="content d-flex flex-column gap-2 text-white align-items-center">
                 <h1 class="w-75">
                     Welcome to KPR Revolutionizing Electronic Store
                 </h1>
@@ -28,130 +23,26 @@
         </div>
 
         <h2 class="text-center p-4">
-            Limited Time Offer - up to 70% Off Your Purchase!
+            Limited Time Offer - up to 15% Off Your Purchase on
+            Pick-up!
         </h2>
 
-        <div
-            class="d-flex px-3 mb-4 gap-4 justify-content-around bg-white m-auto rounded-2 p-3"
-            style="width: 90%"
-        >
-            <div
-                class="border align-self-center p-img"
-                style="height: 10rem; width: 10rem"
-            />
-            <div class="w-75">
-                <h4>GoPro HERO6 4K Action Camera - Black</h4>
-                <h3>$923</h3>
-                <div class="d-flex align-items-center">
-                    <div class="stared">
-                        <i class="bi bi-star-fill"></i
-                        ><i class="bi bi-star-fill"></i
-                        ><i class="bi bi-star-fill"></i
-                        ><i class="bi bi-star-fill"></i>
-                    </div>
-                    <i class="bi bi-star"></i>
-                    <span class="ms-2 rated">7.5</span>
-                    <div class="dot"></div>
-                    <span class="ms-2">154 orders</span>
-                    <div class="dot"></div>
-                    <span class="ms-2 text-success">Free Shipping</span>
-                </div>
-                <p>
-                    Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                    laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-                    irure dolor in reprehenderit
-                </p>
-                <div class="text-primary">View details</div>
-            </div>
-            <div>
-                <i
-                    type="button"
-                    class="bi bi-cart3 me-2 border px-2 py-1 rounded"
-                ></i>
-            </div>
-        </div>
-        <div
-            class="d-flex px-3 mb-4 gap-4 justify-content-around bg-white m-auto rounded-2 p-3"
-            style="width: 90%"
-        >
-            <div
-                class="border align-self-center p-img"
-                style="height: 10rem; width: 10rem"
-            />
-            <div class="w-75">
-                <h4>GoPro HERO6 4K Action Camera - Black</h4>
-                <h3>$923</h3>
-                <div class="d-flex align-items-center">
-                    <div class="stared">
-                        <i class="bi bi-star-fill"></i
-                        ><i class="bi bi-star-fill"></i
-                        ><i class="bi bi-star-fill"></i
-                        ><i class="bi bi-star-fill"></i>
-                    </div>
-                    <i class="bi bi-star"></i>
-                    <span class="ms-2 rated">7.5</span>
-                    <div class="dot"></div>
-                    <span class="ms-2">154 orders</span>
-                    <div class="dot"></div>
-                    <span class="ms-2 text-success">Free Shipping</span>
-                </div>
-                <p>
-                    Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                    laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-                    irure dolor in reprehenderit
-                </p>
-                <div class="text-primary">View details</div>
-            </div>
-            <div>
-                <i
-                    type="button"
-                    class="bi bi-cart3 me-2 border px-2 py-1 rounded"
-                ></i>
-            </div>
-        </div>
-        <div
-            class="d-flex px-3 mb-4 gap-4 justify-content-around bg-white m-auto rounded-2 p-3"
-            style="width: 90%"
-        >
-            <div
-                class="border align-self-center p-img"
-                style="height: 10rem; width: 10rem"
-            />
-            <div class="w-75">
-                <h4>GoPro HERO6 4K Action Camera - Black</h4>
-                <h3>$923</h3>
-                <div class="d-flex align-items-center">
-                    <div class="stared">
-                        <i class="bi bi-star-fill"></i
-                        ><i class="bi bi-star-fill"></i
-                        ><i class="bi bi-star-fill"></i
-                        ><i class="bi bi-star-fill"></i>
-                    </div>
-                    <i class="bi bi-star"></i>
-                    <span class="ms-2 rated">7.5</span>
-                    <div class="dot"></div>
-                    <span class="ms-2">154 orders</span>
-                    <div class="dot"></div>
-                    <span class="ms-2 text-success">Free Shipping</span>
-                </div>
-                <p>
-                    Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                    laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-                    irure dolor in reprehenderit
-                </p>
-                <div class="text-primary">View details</div>
-            </div>
-            <div>
-                <i
-                    type="button"
-                    class="bi bi-cart3 me-2 border px-2 py-1 rounded"
-                ></i>
+        <div class="mapouter w-75 m-auto mb-4">
+            <div class="gmap_canvas">
+                <iframe
+                    class="gmap_iframe"
+                    width="100%"
+                    frameborder="0"
+                    scrolling="no"
+                    marginheight="0"
+                    marginwidth="0"
+                    src="https://maps.google.com/maps?width=612&amp;height=400&amp;hl=en&amp;q=institute of technology of cambodia&amp;t=&amp;z=15&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"></iframe
+                ><a href="https://connectionsgame.org/">Connections NYT</a>
             </div>
         </div>
 
         <div
-            class="social mb-3 d-flex flex-column text-center w-100 bg-white p-4"
-        >
+            class="social mb-3 d-flex flex-column text-center w-100 bg-white p-4">
             <h3>Stay connected</h3>
             <div class="d-flex gap-4 m-auto">
                 <div id="ig"></div>
@@ -167,14 +58,14 @@
             <div id="ad"></div>
         </div>
 
-        <Footer />
+        
     </main>
 </template>
 
 <style scoped>
     .heroBanner {
         background-repeat: no-repeat;
-        
+
         background-position: center;
         background-image: url('../assets/darkBanner.svg');
     }
@@ -200,29 +91,19 @@
         background-image: url('../assets/social_Icon/yt.svg');
     }
 
-    .dlApp div {
-        width: 171px;
-        height: 58px;
-        background-size: 100% auto;
+    .mapouter {
+        position: relative;
+        text-align: right;
+        width: 100%;
+        height: 400px;
     }
-    #ios {
-        background-image: url('../assets/dl_app/ios.svg');
+    .gmap_canvas {
+        overflow: hidden;
+        background: none !important;
+        width: 100%;
+        height: 400px;
     }
-    #ad {
-        background-image: url('../assets/dl_app/ad.svg');
-    }
-    .dot {
-        background: #000000;
-        width: 5px;
-        height: 5px;
-        border-radius: 100%;
-        margin-left: 8px;
-    }
-
-    .p-img {
-        background-size: 80% auto;
-        background-repeat: no-repeat;
-        background-position: center;
-        background-image: url('../assets/products/sWatch.svg');
+    .gmap_iframe {
+        height: 400px !important;
     }
 </style>

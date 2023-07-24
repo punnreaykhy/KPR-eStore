@@ -1,7 +1,3 @@
-<script setup>
-    import NavBar from '../components/NavBar.vue';
-    import Footer from '../components/Footer.vue';
-</script>
 <script>
     export default {
         data() {
@@ -18,7 +14,7 @@
 
 <template>
     <main style="min-height: 100vh; display: flex; flex-direction: column">
-        <NavBar />
+        
         <div class="mx-5 fs-3 fw-bold">
             Checkout
         </div>
@@ -170,7 +166,7 @@
                 </div>
             </div>
         </div>
-        <Footer />
+        
     </main>
 </template>
 

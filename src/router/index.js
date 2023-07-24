@@ -15,9 +15,14 @@ const router = createRouter({
       component: HomeView
     },
     {
-      path: '/landing',
-      name: 'landing',
-      component: LandView
+      path: '/products',
+      name: 'products',
+      component: () => import('../views/ListAllProductsView.vue'),
+    },
+    {
+      path: '/products/:name',
+      name: 'productsByCate',
+      component: () => import('../views/ListByCateView.vue'),
     },
     {
       path: '/product/:id',

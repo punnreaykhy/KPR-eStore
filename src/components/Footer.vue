@@ -1,27 +1,16 @@
 <script>
-    import axios from 'axios';
+    import categoryApi from '../libs/api/category';
     export default {
         data() {
             return {
                 categories: [],
             };
         },
-        mounted() {
-            this.getCategories();
+        async mounted() {
+            this.categories = await categoryApi.all();
         },
         methods: {
-            getCategories() {
-                // Retrieve products using an API request
-                // Set this.products with the retrieved data
-                axios
-                    .get('http://127.0.0.1:8000/api/categories/')
-                    .then((response) => {
-                        this.categories = response.data;
-                    })
-                    .catch((error) => {
-                        console.error(error);
-                    });
-            },
+
         },
     };
 </script>
@@ -44,11 +33,10 @@
                             class="nav-item"
                             v-for="cate in categories"
                             :key="cate.id">
-                            <a
-                                class="nav-link"
-                                href="javascript:void(0)"
-                                >{{ cate.name }}</a
-                            >
+                            <router-link :to="'/products/'+cate.name"
+
+                            class="nav-link"
+                            >{{ cate.name }}</router-link>
                         </li>
                     </ul>
                 </div>
