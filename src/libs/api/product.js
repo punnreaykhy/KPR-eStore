@@ -31,17 +31,32 @@ var product = {
 
 
         } catch (error) {
-            console.error('Error fetching data:', error);
+            if (error.response && error.response.status === 429) {
+                // If the error is due to rate limiting, wait for a few seconds and retry
+                await wait(2000); // You can adjust the delay time as needed
+                return this.getProduct(id); // Retry the request
+              } else {
+                console.error('Error fetching data:', error);
+              }
+          
+            
             return null;
         }
     },
-    async getProductForCate(id) {
+    async getProductForCart(id) {
         try {
             // Retrieve product using the first API request
             const productResponse = await axios.get(`http://127.0.0.1:8000/api/products/${id}`);
             return productResponse.data;
         } catch (error) {
-            console.error('Error fetching data:', error);
+            if (error.response && error.response.status === 429) {
+                // If the error is due to rate limiting, wait for a few seconds and retry
+                await wait(2000); // You can adjust the delay time as needed
+                return this.getProductForCate(id); // Retry the request
+              } else {
+                console.error('Error fetching data:', error);
+              }
+            
             return null;
         }
     },
@@ -53,7 +68,14 @@ var product = {
             var products = response.data;
             return products;
         } catch (error) {
-            console.error(error);
+            if (error.response && error.response.status === 429) {
+                // If the error is due to rate limiting, wait for a few seconds and retry
+                await wait(2000); // You can adjust the delay time as needed
+                return this.getByCate(id); // Retry the request
+              } else {
+                console.error(error);
+              }
+            
             return [];
         }
     }

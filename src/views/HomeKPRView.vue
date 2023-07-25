@@ -69,7 +69,7 @@ export default {
 
 
   </main>
-  <Landing :products="products"/>
+  <Landing/>
 </template>
 
 <style scoped>

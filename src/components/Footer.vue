@@ -1,16 +1,21 @@
 <script>
-    import categoryApi from '../libs/api/category';
+    
     export default {
         data() {
             return {
-                categories: [],
             };
         },
         async mounted() {
-            this.categories = await categoryApi.all();
+            
         },
         methods: {
 
+        },
+        props: {
+            categories: {
+                type: Object,
+                required: true,
+            },
         },
     };
 </script>

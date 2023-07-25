@@ -4,7 +4,6 @@
         // components: { Button },
         data() {
             return {
-                productImgURL: 'http://127.0.0.1:8000/api',
                 product: null,
                 pImages: [],
                 relatedProducts: [],
@@ -120,7 +119,7 @@
                     <div class="carousel-inner">
                         <div class="carousel-item active">
                             <img
-                                :src="productImgURL + product?.image_path"
+                                :src="this.$store.state.productImgURL + product?.image_path"
                                 class="d-block w-100"
                                 alt="..." />
                         </div>
@@ -129,7 +128,7 @@
                             v-for="pImg in pImages"
                             :key="pImg.id">
                             <img
-                                :src="productImgURL + pImg.image_path"
+                                :src="this.$store.state.productImgURL + pImg.image_path"
                                 class="d-block w-100"
                                 alt="..." />
                         </div>
@@ -206,12 +205,12 @@
             </div>
             <div class="d-flex mt-3 gap-3">
                 <img
-                    :src="productImgURL + product?.image_path"
+                    :src="this.$store.state.productImgURL + product?.image_path"
                     class="sub-img" />
                 <img
                     v-for="pImg in pImages"
                     :key="pImg.id"
-                    :src="productImgURL + pImg.image_path"
+                    :src="this.$store.state.productImgURL + pImg.image_path"
                     class="sub-img" />
             </div>
 
@@ -228,7 +227,7 @@
                         v-for="product in relatedProducts"
                         :key="product.id">
                         <img
-                            :src="productImgURL + product?.image_path"
+                            :src="this.$store.state.productImgURL + product?.image_path"
                             class="relate-p-img" />
                         <h5 class="mt-2">{{ product.name }}</h5>
                         <span>{{ product.price }}</span>

@@ -7,58 +7,81 @@
             };
         },
         methods: {
-            increaseValue() {
-                var value = parseInt(
-                    document.getElementById('number').value,
-                    10
-                );
-                value = isNaN(value) ? 0 : value;
-                value++;
-                document.getElementById('number').value = value;
+            increaseValue(product) {
+                if (product.stock > product.qty) {
+                    product.qty++;
+                }
+            },
+            decreaseValue(product) {
+                if (product.qty > 1) {
+                    product.qty--;
+                }
             },
 
-            decreaseValue() {
-                var value = parseInt(
-                    document.getElementById('number').value,
-                    10
-                );
-                value = isNaN(value) ? 0 : value;
-                value < 1 ? (value = 1) : '';
-                value--;
-                document.getElementById('number').value = value;
-            },
-
-            onCheckout(){
+            onCheckout() {
                 this.$router.push('checkout/customer-info');
-            }
+            },
         },
-        async mounted() {},
+        async mounted() {
+            
+        },
+        computed: {
+            cartData() {
+                return this.$store.state.cartData;
+            },
+            subTotal() {
+                // Loop through the cartData array and calculate the total price
+                let total = 0;
+                if (this.cartData) {
+                    for (const product of this.cartData) {
+                        total += parseFloat(product.price);
+                    }
+                }
+
+                return total.toFixed(2);
+            },
+        },
+        watch: {
+            cartData: {
+                deep: true,
+                handler(newCartData) {
+                    // Check and update the quantity for each product in cartData
+                    newCartData.forEach((product) => {
+                        if (product.qty > product.stock) {
+                            product.qty = product.stock;
+                        }
+                    });
+                },
+            },
+        },
     };
 </script>
 
 <template>
-    <main style="
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-    ">
-        
+    <main style="min-height: 100vh; display: flex; flex-direction: column">
         <div
             class="bg-white p-5 mx-5 rounded-3"
-            style="height: 36.5em"
-        >
+            style="height: 36.5em">
             <h2>Your Cart</h2>
             <div class="d-flex gap-5">
-                <div class="items w-75 overflow-auto" style="height: 27em">
-                    
-                    <div class="d-flex products align-items-center p-3">
-                        <div class="img border border-2 rounded-4"></div>
+                <div
+                    class="items w-75 overflow-auto"
+                    style="height: 27em">
+                    <div
+                        v-for="product in cartData"
+                        :key="product.id"
+                        class="d-flex products align-items-center p-3">
+                        <img
+                            :src="
+                                this.$store.state.productImgURL +
+                                product.image_path
+                            "
+                            class="img border border-2 rounded-4" />
                         <div
-                            class="w-75 d-flex flex-column justify-content-between price pt-2 px-2"
-                        >
-                            <h5 class="">Mlasggjs</h5>
+                            class="w-75 d-flex flex-column justify-content-between price pt-2 px-2">
+                            <h5 class="">{{ product.name }}</h5>
                             <div class="d-flex gap-2">
-                                <h5>26.35</h5>
+                                <h5>{{ product.price }}</h5>
                                 $
                             </div>
                         </div>
@@ -67,33 +90,30 @@
                                 <div
                                     class="value-button d-flex justify-content-center align-items-center"
                                     id="decrease"
-                                    @click="decreaseValue"
-                                    value="Decrease Value"
-                                >
+                                    @click="decreaseValue(product)"
+                                    value="Decrease Value">
                                     -
                                 </div>
                                 <input
                                     type="number"
                                     id="number"
-                                    value="1"
-                                />
+                                    :value="product.qty"
+                                    readonly />
                                 <div
                                     class="value-button d-flex justify-content-center align-items-center"
                                     id="increase"
-                                    @click="increaseValue"
-                                    value="Increase Value"
-                                >
+                                    @click="increaseValue(product)"
+                                    value="Increase Value">
                                     +
                                 </div>
                             </div>
                             <div
                                 id="del"
-                                class="rounded-3"
-                            ></div>
+                                class="rounded-3"></div>
                         </div>
                     </div>
 
-                    <div class="d-flex products align-items-center p-3">
+                    <!-- <div class="d-flex products align-items-center p-3">
                         <div class="img border border-2 rounded-4"></div>
                         <div
                             class="w-75 d-flex flex-column justify-content-between price pt-2 px-2"
@@ -174,24 +194,21 @@
                                 class="rounded-3"
                             ></div>
                         </div>
-                    </div>
-
-                    
+                    </div> -->
                 </div>
                 <div
                     class="summary p-4 d-flex flex-column gap-4 rounded-4 border border-4"
-                    style="width: 20em; height: 24em"
-                >
+                    style="width: 20em; height: 24em">
                     <h4>Summary (3 items)</h4>
 
                     <div class="d-flex justify-content-between">
                         <span>Subtotal:</span>
-                        <span>$26.35</span>
+                        <span>${{ subTotal }}</span>
                     </div>
 
                     <div class="d-flex justify-content-between">
                         <span>Shipping:</span>
-                        <span>$26.35</span>
+                        <span class="text-success">Free</span>
                     </div>
                     <div class="d-flex justify-content-between">
                         <span>Est. Taxes:</span>
@@ -203,7 +220,11 @@
                         $
                     </div>
 
-                    <button class="p-2 rounded-4" @click="onCheckout">Checkout</button>
+                    <button
+                        class="p-2 rounded-4"
+                        @click="onCheckout">
+                        Checkout
+                    </button>
                 </div>
             </div>
         </div>

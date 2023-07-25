@@ -1,40 +1,79 @@
 <script>
-    import categoryApi from '../libs/api/category';
     import productApi from '../libs/api/product';
+    
     export default {
         data() {
             return {
                 showPopup: false,
-                categories: [],
+
                 searchBarVisible: false,
                 searchInput: '',
                 productsInCart: [],
             };
         },
         async mounted() {
-            this.categories = await categoryApi.all();
             if (localStorage.productsInCart) {
-                this.getProductsInCart()
-            }
+                    await this.getProductsInCart();
+                    this.$store.commit('setCartData', this.productsInCart);
+                }
         },
 
         computed: {},
 
         methods: {
             async getProductsInCart() {
+                
+                function wait(ms) {
+                    return new Promise((resolve) => setTimeout(resolve, ms));
+                }
                 this.productsInCart = await JSON.parse(
                     localStorage.getItem('productsInCart')
                 );
-                this.productsInCart.forEach(async (value, index) => {
+                const fetchData = async (value) => {
+                    // Your asynchronous logic here, for example:
                     try {
-        const tmpProduct = await productApi.getProductForCate(value.id);
-        this.productsInCart[index].name = tmpProduct?.name;
-        this.productsInCart[index].price = tmpProduct?.price;
-      } catch (error) {
-        console.error("Error fetching product data for ID:", value.id);
-      }
-      await this.$nextTick(); // Update Vue component after each API call
-                        })
+                        return await productApi.getProductForCart(value.id);
+                    } catch (error) {
+                        if (error.response && error.response.status === 429) {
+                            // If the error is due to rate limiting, wait for a few seconds and retry
+                            await wait(2000); // You can adjust the delay time as needed
+                            return fetchData(); // Retry the request
+                        } else {
+                            console.error(
+                                `Error fetching data for product ${value}:`,
+                                error
+                            );
+                        }
+                    }
+                };
+                this.productsInCart.forEach(async (value, index) => {
+                    const tmpProduct = await fetchData(value);
+                    this.productsInCart[index].name = tmpProduct?.name;
+                    this.productsInCart[index].stock = tmpProduct?.stock;
+                    this.productsInCart[index].image_path = tmpProduct?.image_path;
+                    this.productsInCart[index].price = tmpProduct?.price;
+                    // await wait(20000); // You can adjust the delay time as needed
+                    // try {
+                    //     await fetchData(value, index);
+                    //     // const tmpProduct = await productApi.getProductForCate(
+                    //     //     value.id
+                    //     // );
+                    //     // this.productsInCart[index].name = tmpProduct?.name;
+                    //     // this.productsInCart[index].price = tmpProduct?.price;
+                    // } catch (error) {
+                    //     if (error.response && error.response.status === 429) {
+                    //         // If the error is due to rate limiting, wait for a few seconds and retry
+                    //         await wait(2000); // You can adjust the delay time as needed
+                    //         return this.getProductsInCart(); // Retry the request
+                    //     } else {
+                    //         console.error(
+                    //             'Error fetching product data for ID:',
+                    //             value.id
+                    //         );
+                    //     }
+                    // }
+                    // await this.$nextTick(); // Update Vue component after each API call
+                });
             },
             toggleSearch() {
                 if (this.searchInput === '') {
@@ -43,17 +82,23 @@
                     //perform search here
                 }
             },
-            togglePopup() {
-                this.getProductsInCart();
+            async togglePopup() {
+                if (localStorage.productsInCart) {
+                    await this.getProductsInCart();
+                    this.$store.commit('setCartData', this.productsInCart);
+                }
+                
                 this.showPopup = !this.showPopup;
             },
             closePopup() {
                 this.showPopup = false;
             },
             routeToCheckout() {
+                this.showPopup = false;
                 this.$router.push({ name: 'customer-info' });
             },
             routeToCart() {
+                this.showPopup = false;
                 this.$router.push({ name: 'cart' });
             },
             // getCategories() {
@@ -68,6 +113,12 @@
             //             console.error(error);
             //         });
             // },
+        },
+        props: {
+            categories: {
+                type: Object,
+                required: true,
+            },
         },
     };
 </script>
@@ -145,13 +196,24 @@
             <div class="w-25 bg-white sub-cart p-2 mx-4 shadow rounded-3">
                 <h3>Item Added to Cart</h3>
                 <hr />
-                <div style="height: 20rem" class=" overflow-scroll ">
-                    <div class="bg-info rounded-3 mb-3 p-2" v-for="product in productsInCart" :key="product.id">
-                        <div>{{product?.name}}</div>
-                        <div>Qty:{{product?.qty}} - ${{(product?.qty * product?.price).toFixed(2)}}</div>
+                <div
+                    style="height: 20rem"
+                    class=" overflow-auto">
+                    <div
+                        v-if="productsInCart.length"
+                        class="bg-info rounded-3 mb-3 p-2"
+                        v-for="product in productsInCart"
+                        :key="product.id">
+                        <div>{{ product?.name }}</div>
+                        <div>
+                            Qty:{{ product?.qty }} - ${{
+                                (product?.qty * product?.price).toFixed(2)
+                            }}
+                        </div>
                     </div>
+                    <div v-else>Your Cart is Empty</div>
                 </div>
-                
+
                 <div class="d-flex overflow-hidden rounded-3">
                     <div
                         type="button"

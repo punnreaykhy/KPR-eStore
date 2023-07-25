@@ -3,7 +3,6 @@
         data() {
             return {
                 productsInCart: [],
-                productImgURL: 'http://127.0.0.1:8000/api',
             };
         },
         methods: {
@@ -93,7 +92,7 @@
             class="d-flex justify-content-center align-items-center w-100 p-3"
             style="height: 18.6rem">
             <img
-                :src="productImgURL + product.image_path"
+                :src="this.$store.state.productImgURL + product.image_path"
                 alt="phone"
                 class="w-100 h-100" />
         </div>
