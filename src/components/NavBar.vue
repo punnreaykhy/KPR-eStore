@@ -5,7 +5,7 @@
         data() {
             return {
                 showPopup: false,
-
+                totalPrice: 0,
                 searchBarVisible: false,
                 searchInput: '',
                 productsInCart: [],
@@ -14,7 +14,8 @@
         async mounted() {
             if (localStorage.productsInCart) {
                     await this.getProductsInCart();
-                    this.$store.commit('setCartData', this.productsInCart);
+                    this.$store.commit('setCartData', this.productsInCart); //add to state
+                    // this.$store.commit('setTotalPrice', this.totalPrice); //add to state
                 }
         },
 
@@ -75,17 +76,20 @@
                     // await this.$nextTick(); // Update Vue component after each API call
                 });
             },
-            toggleSearch() {
+            async toggleSearch() {
                 if (this.searchInput === '') {
                     $('#searchBar').toggle('display: inline-block');
                 } else {
                     //perform search here
+                    this.$router.push(`/search/${this.searchInput}`);
+                    // this.$router.push({ name: 'search' });
+                    // return await productApi.searchProducts(this.searchInput);
                 }
             },
             async togglePopup() {
                 if (localStorage.productsInCart) {
                     await this.getProductsInCart();
-                    this.$store.commit('setCartData', this.productsInCart);
+                    // this.$store.commit('setCartData', this.productsInCart); //add to state
                 }
                 
                 this.showPopup = !this.showPopup;
@@ -164,7 +168,8 @@
                         name="search"
                         type="search"
                         v-model="searchInput"
-                        placeholder="Search&hellip;" />
+                        placeholder="Search&hellip;" 
+                        @keyup.enter="toggleSearch"/>
                     <i
                         class="bi bi-search mx-2 icon ion-ios-search me-3"
                         id="toggle-search"

@@ -25,7 +25,7 @@
 
     </div> -->
 
-        <NavBar />
+        
         <!-- <heroTitle /> -->
         <div class="d-flex gap-2 px-3 fs-3">
             <a
@@ -44,7 +44,7 @@
             </div>
         </div>
 
-        <Footer />
+        
     </main>
 </template>
 

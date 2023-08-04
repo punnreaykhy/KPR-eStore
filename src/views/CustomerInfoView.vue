@@ -5,7 +5,22 @@
         data() {
             return {
                 categories: [],
+                products: [],
+                info: {
+                    firstName: '',
+                    lastName: '',
+                    phone: '',
+                    email: '',
+                    street: '',
+                    house: '',
+                    city: '',
+                    postalCode: '',
+                    country: '',
+                }
             };
+        },
+        created() {
+            this.products = this.$store.state.cartData
         },
         methods: {
             increaseValue() {
@@ -28,8 +43,10 @@
                 value--;
                 document.getElementById('number').value = value;
             },
-            routeTo(){
-                this.$router.push('/checkout/shipping');
+            routeTo(event){
+                event.preventDefault();
+                this.$store.commit('setCustomerInfo', this.info); //add to state
+                this.$router.push('/checkout/payment');
             },
         },
         async mounted() {},
@@ -47,7 +64,7 @@
             style="height: 36.5em"
         >
             
-            <div class="d-flex">
+            <form class="d-flex" @submit="routeTo">
                 <div class="w-50">
                   <h2>Customer Information</h2>
                     <div
@@ -57,56 +74,65 @@
                         <div>
                             <input
                                 type="text"
-                                v-model="firstName"
+                                v-model="info.firstName"
                                 placeholder="First Name"
+                                required
                             />
                             <input
                                 type="text"
-                                v-model="lastName"
+                                v-model="info.lastName"
                                 placeholder="Last Name"
+                                required
                             />
                         </div>
                         <div>
                             <input
-                                type="text"
-                                v-model="phone"
+                                type="number"
+                                v-model="info.phone"
                                 placeholder="Phone"
+                                required
                             />
                             <input
                                 type="email"
-                                v-model="email"
+                                v-model="info.email"
                                 placeholder="Email"
+                                required
                             />
                         </div>
                         <div>
                             <input
                                 type="text"
-                                v-model="street"
+                                v-model="info.street"
                                 placeholder="Street"
+                                required
                             />
                             <input
                                 type="text"
-                                v-model="house"
+                                v-model="info.house"
                                 placeholder="House"
+                                required
                             />
                         </div>
                         <div>
                             <input
                                 type="text"
-                                v-model="city"
+                                v-model="info.city"
                                 placeholder="City"
+                                required
                             />
                             <input
                                 type="text"
-                                v-model="postalCode"
+                                v-model="info.postalCode"
                                 placeholder="Postal Code"
+                                required
                             />
                         </div>
 
                         <input
                             type="text"
-                            v-model="country"
+                            v-model="info.country"
                             placeholder="Country"
+                            required
                         />
                     </div>
                 </div>
@@ -115,21 +141,22 @@
                         class="summary p-4 d-flex flex-column gap-4 rounded-4 border border-4"
                         style="width: 28em; height: 30em"
                     >
-                        <h4>Summary (3 items)</h4>
+                        <h4>Summary ({{ this.products.length }} items)</h4>
 
                         <div
                             class="overflow-auto"
                             style="height: 14em"
                         >
                             <div
+                                v-for="p in products" :key="p.id"
                                 class="d-flex align-items-center border border-1"
                             >
                                 <div
                                     class="w-75 d-flex flex-column justify-content-between pt-2 px-2"
                                 >
-                                    <h5 class="">Mlasggjs</h5>
+                                    <h5 class="">{{p.name}}</h5>
                                     <div class="d-flex gap-2">
-                                        <h5>26.35</h5>
+                                        <h5>{{p.price}}</h5>
                                         $
                                     </div>
                                 </div>
@@ -139,62 +166,18 @@
                                     <div
                                         class="qty d-flex rounded-3 overflow-hidden"
                                     >
-                                        <div class="border border-2 p-3">x0</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div
-                                class="d-flex align-items-center border border-1"
-                            >
-                                <div
-                                    class="w-75 d-flex flex-column justify-content-between pt-2 px-2"
-                                >
-                                    <h5 class="">Mlasggjs</h5>
-                                    <div class="d-flex gap-2">
-                                        <h5>26.35</h5>
-                                        $
-                                    </div>
-                                </div>
-                                <div
-                                    class="qty-del d-flex gap-2 justify-content-end"
-                                >
-                                    <div
-                                        class="qty d-flex rounded-3 overflow-hidden"
-                                    >
-                                        <div class="border border-2 p-3">x0</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div
-                                class="d-flex align-items-center border border-1"
-                            >
-                                <div
-                                    class="w-75 d-flex flex-column justify-content-between pt-2 px-2"
-                                >
-                                    <h5 class="">Mlasggjs</h5>
-                                    <div class="d-flex gap-2">
-                                        <h5>26.35</h5>
-                                        $
-                                    </div>
-                                </div>
-                                <div
-                                    class="qty-del d-flex gap-2 justify-content-end"
-                                >
-                                    <div
-                                        class="qty d-flex rounded-3 overflow-hidden"
-                                    >
-                                        <div class="border border-2 p-3">x0</div>
+                                        <div class="border border-2 p-3">x{{p.qty}}</div>
                                     </div>
                                 </div>
                             </div>
                             
                         </div>
-                        <div class="d-flex justify-content-between"><h5>Total</h5><div class="d-flex"><h5>23.23</h5>$</div></div>
+                        <div class="d-flex justify-content-between"><h5>Total</h5><div class="d-flex"><h5>{{ Number(this.$store.state.totalPrice) + Number((this.$store.state.totalPrice * this.$store.state.tax).toFixed(2)) }}</h5>$</div></div>
 
-                        <button class="p-2 rounded-4" @click="routeTo">Continue to Shipping Method</button>
+                        <button class="p-2 rounded-4" type="submit">Continue to Shipping Method</button>
                     </div>
                 </div>
-            </div>
+            </form>
         </div>
         
     </main>

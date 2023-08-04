@@ -1,8 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeKPRView.vue'
-import LandView from '../views/LandingView.vue'
-import CartView from '../views/CartView.vue'
-import CustomerInfoView from '../views/CustomerInfoView.vue'
 
 
 
@@ -35,14 +32,14 @@ const router = createRouter({
       component: () => import('../views/CartView.vue')
     },
     {
-      path: '/checkout/customer-info',
-      name: 'customer-info',
-      component: CustomerInfoView
+      path: '/search/:name',
+      name: 'search',
+      component: () => import('../views/SearchView.vue')
     },
     {
-      path: '/checkout/shipping',
-      name: 'shipping',
-      component: () => import('../views/ShippingView.vue')
+      path: '/checkout/customer-info',
+      name: 'customer-info',
+      component: () => import('../views/CustomerInfoView.vue')
     },
     {
       path: '/checkout/payment',

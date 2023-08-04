@@ -4,9 +4,14 @@
     import categoryApi from './libs/api/category';
 </script>
 <template>
-    <NavBar :categories="categories"/>
-    <router-view></router-view>
-    <Footer :categories="categories"/>
+    <div class="wrapper">
+        <NavBar :categories="categories" />
+        <router-view></router-view>
+    </div>
+
+    <Footer style="background-color: #f0f0f0;
+    padding: 20px;
+    text-align: center;" :categories="categories" />
 </template>
 
 <script>
@@ -22,3 +27,11 @@
         },
     };
 </script>
+
+<style>
+    .wrapper {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+</style>

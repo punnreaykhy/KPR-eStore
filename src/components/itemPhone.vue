@@ -63,13 +63,14 @@
                 //   localStorage.productsInCart = productToCart;
                 //   const parsed = JSON.stringify(productToCart);
                 //   localStorage.setItem('productsInCart', parsed);
-                console.log(this.productsInCart);
-                
+                // console.log(this.productsInCart);
+                alert('Added to cart!');
                 console.log('Added to cart!');
             },
             saveProductsInCart() {
                 const parsed = JSON.stringify(this.productsInCart);
                 localStorage.setItem('productsInCart', parsed);
+                this.$store.commit('setCartData', this.productsInCart);
             },
         },
         props: {
@@ -87,12 +88,13 @@
         class="item"
         type="button"
         @click="viewProduct">
+        
         <!-- {{product.id}} -->
         <div
             class="d-flex justify-content-center align-items-center w-100 p-3"
             style="height: 18.6rem">
             <img
-                :src="this.$store.state.productImgURL + product.image_path"
+                :src="this.$store.state.apiURL + product.image_path"
                 alt="phone"
                 class="w-100 h-100" />
         </div>

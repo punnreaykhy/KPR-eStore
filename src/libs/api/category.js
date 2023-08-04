@@ -1,9 +1,10 @@
 import axios from 'axios';
+import apiURL from './apiURL';
 var category = {
     async all() {
         try {
             // Retrieve products using an API request
-            const response = await axios.get('http://127.0.0.1:8000/api/categories/');
+            const response = await axios.get(`${apiURL}/categories/`);
             var products = response.data;
             return products;
         } catch (error) {

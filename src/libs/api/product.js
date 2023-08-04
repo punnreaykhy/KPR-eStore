@@ -1,9 +1,10 @@
 import axios from 'axios';
+import apiURL from './apiURL';
 var product = {
     async all() {
         try {
             // Retrieve products using an API request
-            const response = await axios.get('http://127.0.0.1:8000/api/products/');
+            const response = await axios.get(apiURL+'/products/');
             var products = response.data.data;
             return products;
         } catch (error) {
@@ -14,14 +15,14 @@ var product = {
     async getProduct(id) {
         try {
             // Retrieve product using the first API request
-            const productResponse = await axios.get(`http://127.0.0.1:8000/api/products/${id}`);
+            const productResponse = await axios.get(`${apiURL}/products/${id}`);
             var product = productResponse.data;
 
             // Retrieve category using another API request
-            const categoryResponse = await axios.get(`http://127.0.0.1:8000/api/categories/${product?.category_id}`);
+            const categoryResponse = await axios.get(`${apiURL}/categories/${product?.category_id}`);
             var category = categoryResponse.data;
 
-            const productImagesRes = await axios.get(`http://127.0.0.1:8000/api/productImg/filter/${product?.id}`);
+            const productImagesRes = await axios.get(`${apiURL}/productImg/filter/${product?.id}`);
             var pImgs = productImagesRes.data;
             
             // Assuming category data contains a 'name' property, you can add it to the product object
@@ -38,7 +39,6 @@ var product = {
               } else {
                 console.error('Error fetching data:', error);
               }
-          
             
             return null;
         }
@@ -46,7 +46,7 @@ var product = {
     async getProductForCart(id) {
         try {
             // Retrieve product using the first API request
-            const productResponse = await axios.get(`http://127.0.0.1:8000/api/products/${id}`);
+            const productResponse = await axios.get(`${apiURL}/products/${id}`);
             return productResponse.data;
         } catch (error) {
             if (error.response && error.response.status === 429) {
@@ -64,7 +64,7 @@ var product = {
     async getByCate(name) {
         try {
             // Retrieve products using an API request
-            const response = await axios.get(`http://127.0.0.1:8000/api/products/filter/${name}`);
+            const response = await axios.get(`${apiURL}/products/filter/${name}`);
             var products = response.data;
             return products;
         } catch (error) {
@@ -78,7 +78,37 @@ var product = {
             
             return [];
         }
-    }
+    },
+
+    async searchProducts(name) {
+        try {
+            
+            // Retrieve products using an API request
+            // const reqBody = {
+            //     searchTerm: name
+            // }
+            const response = await axios({
+                method: 'get',
+                url: `${apiURL}/products/search?searchTerm=${name}`,
+                // data: reqBody,
+              });
+            // const response = await axios.get(`${apiURL}/products/search`);
+            var products = response.data;
+            // console.log(reqBody);
+            return products;
+        } catch (error) {
+            if (error.response && error.response.status === 429) {
+                // If the error is due to rate limiting, wait for a few seconds and retry
+                await wait(2000); // You can adjust the delay time as needed
+                return this.searchProducts(name); // Retry the request
+              } else {
+                console.error(error);
+              }
+            
+            return [];
+        }
+    },
+
 
 
 };
